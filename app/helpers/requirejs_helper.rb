@@ -23,9 +23,11 @@ module RequirejsHelper
     end.join(" ")
   end
 
-  def requirejs_include_tag(name=nil, &block)
-    requirejs = Rails.application.config.requirejs
+  def requirejs
+    Rails.application.config.requirejs
+  end
 
+  def requirejs_include_tag(name=nil, &block)
     if requirejs.loader == :almond
       name = requirejs.module_name_for(requirejs.build_config['modules'][0])
       return _almond_include_tag(name, &block)
@@ -91,7 +93,7 @@ module RequirejsHelper
     if defined?(javascript_path)
       javascript_path(name)
     else
-      "/assets/#{name}"
+      "#{requirejs.run_config['baseUrl']}/#{name}"
     end
   end
 
@@ -99,6 +101,6 @@ module RequirejsHelper
     js_asset_path = javascript_path(js_asset)
     uri = URI.parse(js_asset_path)
     asset_host = uri.host && js_asset_path.sub(uri.request_uri, '')
-    [asset_host, Rails.application.config.assets.prefix].join
+    [asset_host, requirejs.run_config['baseUrl']].join
   end
 end

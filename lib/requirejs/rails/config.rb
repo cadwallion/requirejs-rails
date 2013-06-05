@@ -101,7 +101,7 @@ module Requirejs::Rails
                                                     "modules" => [ { 'name' => 'application' } ]
         self[:build_config].merge!(self.user_config).slice!(*self.build_config_whitelist)
         case self.loader
-        when :requirejs 
+        when :requirejs
           # nothing to do
         when :almond
           mods = self[:build_config]['modules']
@@ -126,9 +126,9 @@ module Requirejs::Rails
     end
 
     def user_config=(cfg)
-      if url = cfg.delete('baseUrl')
-        raise Requirejs::ConfigError, "baseUrl is not needed or permitted in the configuration"
-      end
+      #if url = cfg.delete('baseUrl')
+      #  raise Requirejs::ConfigError, "baseUrl is not needed or permitted in the configuration"
+      #end
       self[:user_config] = cfg
     end
 
