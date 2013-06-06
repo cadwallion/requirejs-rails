@@ -27,7 +27,7 @@ module RequirejsHelper
     Rails.application.config.requirejs
   end
 
-  def requirejs_include_tag(name=nil, &block)
+  def requirejs_include_tag(name=nil, config_options = {}, &block)
     if requirejs.loader == :almond
       name = requirejs.module_name_for(requirejs.build_config['modules'][0])
       return _almond_include_tag(name, &block)
@@ -61,6 +61,7 @@ module RequirejsHelper
         end
 
         run_config['baseUrl'] = baseUrl(name)
+        run_config.merge!(config_options)
         html.concat <<-HTML
         <script>var require = #{run_config.to_json};</script>
         HTML
